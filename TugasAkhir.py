@@ -1,13 +1,43 @@
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
-x_time = 0
+import OpenGL.GLUT as gl
+
+# Atur kecepatan gerak objek
+gerakKr = 20
+gerakKn = 20
+gerak_box = 10
+gerak_box2 = 20
+# glTranslated 
+geser_awanKr = 0
+geser_awanKn = 0
+geser_capit = 0
+geser_box = 0
+geser_box2 = 0
+geser_box3 = 0
+geser_box4 = 0
+geser_box5 = 0
+geser_box6 = 0
+# Colision
+batas_awan = 360
+batas_capit = 320
+batas_box = 450
+batas_box2 = 300
+# iterasi
+scene = 0
+jumlah_box = 0
+# bool gerak objek
+gerak_awan = False
+gerakan_game2 = True
+
+# Background awal
 def bg():
     # langit 
-    glColor3ub(43, 202, 255)
     glBegin(GL_QUADS)
-    glVertex2f(0,0)
-    glVertex2f(500,0)
+    glColor3ub(166, 233, 255)
+    glVertex2f(0,190)
+    glVertex2f(500,190)
+    glColor3ub(43, 202, 255)
     glVertex2f(500,700)
     glVertex2f(0, 700)
     glEnd()
@@ -19,6 +49,7 @@ def bg():
     glVertex2f(120,200)
     glVertex2f(380,200)
     glVertex2f(500,190)
+    glColor3ub(34, 173, 21)
     glVertex2f(500,0)
     glVertex2f(0,0)
     glEnd()
@@ -41,28 +72,426 @@ def bg():
     glVertex2f(152.6,0)
     glEnd()
 
-def awan():
+def pagar():
+    # plang
+    glColor3ub(105, 54, 7)
+    glBegin(GL_QUADS)
+    glVertex2f(-20,20)
+    glVertex2f(-20,40)
+    glVertex2f(160,40)
+    glVertex2f(160,20)
+    glEnd()
+
+    # pagar kiri
+    glColor3ub(105, 54, 7)
+    glBegin(GL_QUADS)
+    glVertex2f(0,0)
+    glColor3ub(148, 78, 13)
+    glVertex2f(20,0)
+    glColor3ub(105, 54, 7)
+    glVertex2f(20,60)
+    glVertex2f(0,60)
+    glEnd()
+ 
+    glColor3ub(34, 173, 21)
+    glPointSize(5)
+    glBegin(GL_POINTS)
+    glVertex2f(10,50)
+    glEnd()
+
+    glColor3ub(105, 54, 7)
+    glBegin(GL_TRIANGLES)
+    glVertex2f(20,60)
+    glVertex2f(10,80)
+    glVertex2f(0,60)
+    glEnd()
+
+    # pagar kiri 2
+    glTranslated(40,0,0)
+    glColor3ub(105, 54, 7)
+    glBegin(GL_QUADS)
+    glVertex2f(0,0)
+    glColor3ub(148, 78, 13)
+    glVertex2f(20,0)
+    glColor3ub(105, 54, 7)
+    glVertex2f(20,60)
+    glVertex2f(0,60)
+    glEnd()
+
+    glColor3ub(34, 173, 21)
+    glPointSize(5)
+    glBegin(GL_POINTS)
+    glVertex2f(10,50)
+    glEnd()
+
+    glColor3ub(105, 54, 7)
+    glBegin(GL_TRIANGLES)
+    glVertex2f(20,60)
+    glVertex2f(10,80)
+    glVertex2f(0,60)
+    glEnd()
+
+    # pagar kiri 3
+    glTranslated(40,0,0)
+    glColor3ub(105, 54, 7)
+    glBegin(GL_QUADS)
+    glVertex2f(0,0)
+    glColor3ub(148, 78, 13)
+    glVertex2f(20,0)
+    glColor3ub(105, 54, 7)
+    glVertex2f(20,60)
+    glVertex2f(0,60)
+    glEnd()
+
+    glColor3ub(34, 173, 21)
+    glPointSize(5)
+    glBegin(GL_POINTS)
+    glVertex2f(10,50)
+    glEnd()
+
+    glColor3ub(105, 54, 7)
+    glBegin(GL_TRIANGLES)
+    glVertex2f(20,60)
+    glVertex2f(10,80)
+    glVertex2f(0,60)
+    glEnd()
+
+    # pagar kiri 4
+    glTranslated(40,0,0)
+    glColor3ub(105, 54, 7)
+    glBegin(GL_QUADS)
+    glVertex2f(0,0)
+    glColor3ub(148, 78, 13)
+    glVertex2f(20,0)
+    glColor3ub(105, 54, 7)
+    glVertex2f(20,60)
+    glVertex2f(0,60)
+    glEnd()
+
+    glColor3ub(34, 173, 21)
+    glPointSize(5)
+    glBegin(GL_POINTS)
+    glVertex2f(10,50)
+    glEnd()
+
+    glColor3ub(105, 54, 7)
+    glBegin(GL_TRIANGLES)
+    glVertex2f(20,60)
+    glVertex2f(10,80)
+    glVertex2f(0,60)
+    glEnd()
+
+def awan_kiri():
+    # awan 3
     glPushMatrix()
-    glTranslated(x_time,0,0)
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,0,0)
     glBegin(GL_POLYGON)
     glColor3ub(255,255,255)
-    glVertex2f(50,410)
-    glVertex2f(61,408)
-    glVertex2f(72,400)
-    glVertex2f(77.5,392)
-    glVertex2f(80,380)
-    glVertex2f(78.5,370)
-    glVertex2f(72.5,360)
-    glVertex2f(60.5,352)
-    glVertex2f(50,350)
-    glVertex2f(39.5,352)
-    glVertex2f(28,360)
-    glVertex2f(21.5,370)
-    glVertex2f(20,380)
-    glVertex2f(22.5,392)
-    glVertex2f(27.5,400)
-    glVertex2f(39,408)
-    glVertex2f(50,410)
+    glVertex2f(50,510)
+    glVertex2f(61,508)
+    glVertex2f(72,500)
+    glVertex2f(77.5,492)
+    glVertex2f(80,480)
+    glVertex2f(78.5,470)
+    glVertex2f(72.5,460)
+    glVertex2f(60.5,452)
+    glVertex2f(50,450)
+    glVertex2f(39.5,452)
+    glVertex2f(28,460)
+    glVertex2f(21.5,470)
+    glVertex2f(20,480)
+    glVertex2f(22.5,492)
+    glVertex2f(27.5,500)
+    glVertex2f(39,508)
+    glVertex2f(50,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 3
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,510)
+    glVertex2f(101,508)
+    glVertex2f(112,500)
+    glVertex2f(117.5,492)
+    glVertex2f(120,480)
+    glVertex2f(118.5,470)
+    glVertex2f(112.5,460)
+    glVertex2f(100.5,452)
+    glVertex2f(90,450)
+    glVertex2f(79.5,452)
+    glVertex2f(68,460)
+    glVertex2f(61.5,470)
+    glVertex2f(60,480)
+    glVertex2f(62.5,492)
+    glVertex2f(67.5,500)
+    glVertex2f(79,508)
+    glVertex2f(90,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 3
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,510)
+    glVertex2f(141,508)
+    glVertex2f(152,500)
+    glVertex2f(157.5,492)
+    glVertex2f(160,480)
+    glVertex2f(158.5,470)
+    glVertex2f(152.5,460)
+    glVertex2f(140.5,452)
+    glVertex2f(130,450)
+    glVertex2f(119.5,452)
+    glVertex2f(108,460)
+    glVertex2f(101.5,470)
+    glVertex2f(100,480)
+    glVertex2f(102.5,492)
+    glVertex2f(107.5,500)
+    glVertex2f(119,508)
+    glVertex2f(130,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 4
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,90,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(50,610)
+    glVertex2f(61,608)
+    glVertex2f(72,600)
+    glVertex2f(77.5,592)
+    glVertex2f(80,580)
+    glVertex2f(78.5,570)
+    glVertex2f(72.5,560)
+    glVertex2f(60.5,552)
+    glVertex2f(50,550)
+    glVertex2f(39.5,552)
+    glVertex2f(28,560)
+    glVertex2f(21.5,570)
+    glVertex2f(20,580)
+    glVertex2f(22.5,592)
+    glVertex2f(27.5,600)
+    glVertex2f(39,608)
+    glVertex2f(50,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 4
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,90,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,610)
+    glVertex2f(101,608)
+    glVertex2f(112,600)
+    glVertex2f(117.5,592)
+    glVertex2f(120,580)
+    glVertex2f(118.5,570)
+    glVertex2f(112.5,560)
+    glVertex2f(100.5,552)
+    glVertex2f(90,550)
+    glVertex2f(79.5,552)
+    glVertex2f(68,560)
+    glVertex2f(61.5,570)
+    glVertex2f(60,580)
+    glVertex2f(62.5,592)
+    glVertex2f(67.5,600)
+    glVertex2f(79,608)
+    glVertex2f(90,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 4
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,90,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,610)
+    glVertex2f(141,608)
+    glVertex2f(152,600)
+    glVertex2f(157.5,592)
+    glVertex2f(160,580)
+    glVertex2f(158.5,570)
+    glVertex2f(152.5,560)
+    glVertex2f(140.5,552)
+    glVertex2f(130,550)
+    glVertex2f(119.5,552)
+    glVertex2f(108,560)
+    glVertex2f(101.5,570)
+    glVertex2f(100,580)
+    glVertex2f(102.5,592)
+    glVertex2f(107.5,600)
+    glVertex2f(119,608)
+    glVertex2f(130,610)
+    glEnd()
+    glPopMatrix()
+
+def awan_kanan():
+    # awan 1
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,-100,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(50,510)
+    glVertex2f(61,508)
+    glVertex2f(72,500)
+    glVertex2f(77.5,492)
+    glVertex2f(80,480)
+    glVertex2f(78.5,470)
+    glVertex2f(72.5,460)
+    glVertex2f(60.5,452)
+    glVertex2f(50,450)
+    glVertex2f(39.5,452)
+    glVertex2f(28,460)
+    glVertex2f(21.5,470)
+    glVertex2f(20,480)
+    glVertex2f(22.5,492)
+    glVertex2f(27.5,500)
+    glVertex2f(39,508)
+    glVertex2f(50,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 1
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,-100,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,510)
+    glVertex2f(101,508)
+    glVertex2f(112,500)
+    glVertex2f(117.5,492)
+    glVertex2f(120,480)
+    glVertex2f(118.5,470)
+    glVertex2f(112.5,460)
+    glVertex2f(100.5,452)
+    glVertex2f(90,450)
+    glVertex2f(79.5,452)
+    glVertex2f(68,460)
+    glVertex2f(61.5,470)
+    glVertex2f(60,480)
+    glVertex2f(62.5,492)
+    glVertex2f(67.5,500)
+    glVertex2f(79,508)
+    glVertex2f(90,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 1
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,-100,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,510)
+    glVertex2f(141,508)
+    glVertex2f(152,500)
+    glVertex2f(157.5,492)
+    glVertex2f(160,480)
+    glVertex2f(158.5,470)
+    glVertex2f(152.5,460)
+    glVertex2f(140.5,452)
+    glVertex2f(130,450)
+    glVertex2f(119.5,452)
+    glVertex2f(108,460)
+    glVertex2f(101.5,470)
+    glVertex2f(100,480)
+    glVertex2f(102.5,492)
+    glVertex2f(107.5,500)
+    glVertex2f(119,508)
+    glVertex2f(130,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 2
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(50,610)
+    glVertex2f(61,608)
+    glVertex2f(72,600)
+    glVertex2f(77.5,592)
+    glVertex2f(80,580)
+    glVertex2f(78.5,570)
+    glVertex2f(72.5,560)
+    glVertex2f(60.5,552)
+    glVertex2f(50,550)
+    glVertex2f(39.5,552)
+    glVertex2f(28,560)
+    glVertex2f(21.5,570)
+    glVertex2f(20,580)
+    glVertex2f(22.5,592)
+    glVertex2f(27.5,600)
+    glVertex2f(39,608)
+    glVertex2f(50,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 2
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,610)
+    glVertex2f(101,608)
+    glVertex2f(112,600)
+    glVertex2f(117.5,592)
+    glVertex2f(120,580)
+    glVertex2f(118.5,570)
+    glVertex2f(112.5,560)
+    glVertex2f(100.5,552)
+    glVertex2f(90,550)
+    glVertex2f(79.5,552)
+    glVertex2f(68,560)
+    glVertex2f(61.5,570)
+    glVertex2f(60,580)
+    glVertex2f(62.5,592)
+    glVertex2f(67.5,600)
+    glVertex2f(79,608)
+    glVertex2f(90,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 2
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,610)
+    glVertex2f(141,608)
+    glVertex2f(152,600)
+    glVertex2f(157.5,592)
+    glVertex2f(160,580)
+    glVertex2f(158.5,570)
+    glVertex2f(152.5,560)
+    glVertex2f(140.5,552)
+    glVertex2f(130,550)
+    glVertex2f(119.5,552)
+    glVertex2f(108,560)
+    glVertex2f(101.5,570)
+    glVertex2f(100,580)
+    glVertex2f(102.5,592)
+    glVertex2f(107.5,600)
+    glVertex2f(119,608)
+    glVertex2f(130,610)
     glEnd()
     glPopMatrix()
 
@@ -520,15 +949,6 @@ def jarum_jam():
     glVertex2f(250,400)
     glEnd()
 
-    # glPushMatrix()
-    # glRotated(angle_time,0,0,1)
-    # glColor3ub(0,0,0)
-    # glBegin(GL_LINES)
-    # glVertex2f(250,380)
-    # glVertex2f(268,400)
-    # glEnd()
-    # glPopMatrix()
-
     # Jarum kecil
     glColor3ub(0,0,0)
     glBegin(GL_LINES)
@@ -563,12 +983,1744 @@ def jarum_jam():
     glVertex2f(220,380)
     glVertex2f(225,380)
     glEnd()
-    
-def timer(value):
-    global x_time
-    x_time += 3
-    glutTimerFunc(200, timer,0)
 
+def play():
+    # kotak
+    glBegin(GL_POLYGON)
+    glColor3ub(255, 66, 66)
+    glVertex2f(195,335)
+    glVertex2f(197,345)
+    glVertex2f(200,350)
+    glVertex2f(205,352)
+    glVertex2f(215,355)
+    glVertex2f(285,355)
+    glVertex2f(295,352)
+    glVertex2f(300,350)
+    glVertex2f(302,345)
+    glVertex2f(305,335)
+    glVertex2f(305,265)
+    glVertex2f(302,255)
+    glVertex2f(300,250)
+    glVertex2f(295,248)
+    glVertex2f(285,245)
+    glVertex2f(215,245)
+    glVertex2f(205,248)
+    glVertex2f(200,250)
+    glVertex2f(198,255)
+    glVertex2f(195,265)
+    glEnd()
+
+    # segitiga
+    glColor3ub(255, 244, 31)
+    glBegin(GL_POLYGON)
+    glVertex2f(220,340)
+    glVertex2f(290,300)
+    glVertex2f(220,260)
+    glEnd()
+
+def judul_game():
+    # F
+    glBegin(GL_QUADS)
+    glColor3ub(8, 0, 255)
+    glVertex2f(140,630)
+    glVertex2f(140,540)
+    glVertex2f(160,540)
+    glVertex2f(160,630)
+    glEnd()
+
+    glBegin(GL_QUADS)
+    glVertex2f(160,570)
+    glVertex2f(200,570)
+    glVertex2f(195,595)
+    glVertex2f(160,592)
+    glEnd()
+
+    glBegin(GL_QUADS)
+    glVertex2f(160,615)
+    glVertex2f(195,610)
+    glVertex2f(198,630)
+    glVertex2f(160,630)
+    glEnd()
+
+    # U
+    glBegin(GL_POLYGON)
+    glColor3ub(245, 241, 0)
+    glVertex2f(215,595)
+    glVertex2f(220,555)
+    glVertex2f(235,540)
+    glVertex2f(235,563)
+    glVertex2f(230,600)
+    glEnd()
+
+    glBegin(GL_QUADS)
+    glVertex2f(235,563)
+    glVertex2f(235,540)
+    glVertex2f(258,540)
+    glVertex2f(258,560)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glVertex2f(256,602)
+    glVertex2f(258,560)
+    glVertex2f(258,541)
+    glVertex2f(269,550)
+    glVertex2f(273,600)
+    glEnd()
+
+    # n
+    glBegin(GL_POLYGON)
+    glColor3ub(247, 23, 255)
+    glVertex2f(287,600)
+    glVertex2f(283,543)
+    glVertex2f(300,540)
+    glVertex2f(302,573)
+    glVertex2f(307,580)
+    glVertex2f(312,583)
+    glVertex2f(312,598)
+    glVertex2f(300,595)
+    glVertex2f(300,600)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glVertex2f(312,598)
+    glVertex2f(320,600)
+    glVertex2f(332,597)
+    glVertex2f(328,578)
+    glVertex2f(320,583)
+    glVertex2f(312,583)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glVertex2f(332,597)
+    glVertex2f(342,583)
+    glVertex2f(340,540)
+    glVertex2f(330,542)
+    glVertex2f(332,573)
+    glVertex2f(328,578)
+    glEnd()
+
+    # m
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(255,513)
+    glVertex2f(266,515)
+    glVertex2f(267,512)
+    glVertex2f(272,515)
+    glVertex2f(277,515)
+    glVertex2f(277,510)
+    glVertex2f(271,508)
+    glVertex2f(265,506)
+    glVertex2f(265,480)
+    glVertex2f(255,480)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(277,515)
+    glVertex2f(284,512)
+    glVertex2f(287,505)
+    glVertex2f(291,513)
+    glVertex2f(297,514)
+    glVertex2f(296,507)
+    glVertex2f(291,504)
+    glVertex2f(290,496)
+    glVertex2f(290,480)
+    glVertex2f(283,481)
+    glVertex2f(283,499)
+    glVertex2f(282,506)
+    glVertex2f(277,510)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(297,514)
+    glVertex2f(304,514)
+    glVertex2f(310,508)
+    glVertex2f(310,504)
+    glVertex2f(310,480)
+    glVertex2f(304,480)
+    glVertex2f(304,506)
+    glVertex2f(296,507)
+    glEnd()
+
+    # a
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(320,512)
+    glVertex2f(328,512)
+    glVertex2f(334,506)
+    glVertex2f(334,500)
+    glVertex2f(328,500)
+    glVertex2f(328,504)
+    glVertex2f(326,506)
+    glVertex2f(320,506)
+    glVertex2f(316,504)
+    glVertex2f(314,508)
+    glEnd()
+    
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(320,500)
+    glVertex2f(316,496)
+    glVertex2f(316,484)
+    glVertex2f(320,480)
+    glVertex2f(328,480)
+    glVertex2f(329,482)
+    glVertex2f(330,480)
+    glVertex2f(334,480)
+    glVertex2f(334,500)
+    glVertex2f(328,500)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glColor3ub(43, 202, 255)
+    glVertex2f(320,494)
+    glVertex2f(320,490)
+    glVertex2f(320,486)
+    glVertex2f(322,484)
+    glVertex2f(328,484)
+    glVertex2f(330,486)
+    glVertex2f(330,496)
+    glVertex2f(324,496)
+    glEnd()
+
+    # t
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(350,506)
+    glVertex2f(358,506)
+    glVertex2f(358,512)
+    glVertex2f(350,512)
+    glVertex2f(350,520)
+    glVertex2f(344,520)
+    glVertex2f(344,512)
+    glVertex2f(336,512)
+    glVertex2f(336,506)
+    glVertex2f(344,506)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(344,506)
+    glVertex2f(344,484)
+    glVertex2f(350,486)
+    glVertex2f(350,506)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(344,484)
+    glVertex2f(348,480)
+    glVertex2f(356,480)
+    glVertex2f(360,484)
+    glVertex2f(362,488)
+    glVertex2f(358,488)
+    glVertex2f(356,484)
+    glVertex2f(352,484)
+    glVertex2f(350,486)
+    glEnd()
+    
+    # h
+    glBegin(GL_POLYGON)
+    glColor3ub(237, 0, 0)
+    glVertex2f(370,504)
+    glVertex2f(370,520)
+    glVertex2f(365,520)
+    glVertex2f(365,480)
+    glVertex2f(370,480)
+    glVertex2f(370,496)
+    glVertex2f(372,500)
+    glVertex2f(374,502)
+    glVertex2f(374,508)
+    glVertex2f(372,506)
+    glEnd()
+
+    glBegin(GL_POLYGON)
+    glVertex2f(384,506)
+    glVertex2f(380,508)
+    glVertex2f(374,508)
+    glVertex2f(374,502)
+    glVertex2f(380,502)
+    glVertex2f(382,500)
+    glVertex2f(384,496)
+    glVertex2f(384,480)
+    glVertex2f(389,480)
+    glVertex2f(389,496)
+    glVertex2f(388,500)
+    glVertex2f(386,504)
+    glEnd()
+
+# Background game capit
+def lapangan():
+    # bg
+    glColor3ub(69, 138, 247)
+    glBegin(GL_QUADS)
+    glVertex2f(0,0)
+    glVertex2f(500,0)
+    glVertex2f(500,700)
+    glVertex2f(0, 700)
+    glEnd()
+
+    # score
+    glColor3ub(48, 48, 45)
+    glBegin(GL_QUADS)
+    glVertex2f(0,660)
+    glVertex2f(100,660)
+    glVertex2f(100,630)
+    glVertex2f(0,630)
+    glEnd()
+
+    glColor3ub(48, 48, 45)
+    glBegin(GL_QUADS)
+    glVertex2f(0,620)
+    glVertex2f(80,620)
+    glVertex2f(80,590)
+    glVertex2f(0,590)
+    glEnd()
+
+    # lantai
+    glColor3ub(242, 197, 131)
+    glBegin(GL_QUADS)
+    glVertex2f(0,0)
+    glVertex2f(0,150)
+    glVertex2f(500,150)
+    glVertex2f(500,0)
+    glEnd()
+
+    # garis tepi merah
+    glColor3ub(171, 14, 37)
+    glLineWidth(15)
+    glBegin(GL_LINE_LOOP)
+    glVertex2f(50,150)
+    glVertex2f(60,110)
+    glVertex2f(70,100)
+    glVertex2f(100,80)
+    glVertex2f(130,70)
+    glVertex2f(160,60)
+    glVertex2f(190,50)
+    glVertex2f(220,45)
+    glVertex2f(280,45)
+    glVertex2f(310,50)
+    glVertex2f(340,60)
+    glVertex2f(370,70)
+    glVertex2f(400,80)
+    glVertex2f(430,100)
+    glVertex2f(440,110)
+    glVertex2f(450,150)
+    glEnd()
+
+    # kayu
+    glColor3ub(150, 80, 5)
+    glBegin(GL_QUADS)
+    glVertex2f(0,350)
+    glVertex2f(0,150)
+    glVertex2f(500,150)
+    glVertex2f(500,350)
+    glEnd()
+
+    # papan
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(5,345)
+    glVertex2f(35,345)
+    glVertex2f(35,155)
+    glVertex2f(5,155)
+    glEnd()
+
+    # papan 2
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(5,345)
+    glVertex2f(35,345)
+    glVertex2f(35,155)
+    glVertex2f(5,155)
+    glEnd()
+
+    # papan 3
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(45,345)
+    glVertex2f(75,345)
+    glVertex2f(75,155)
+    glVertex2f(45,155)
+    glEnd()
+
+    # papan 4
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(85,345)
+    glVertex2f(115,345)
+    glVertex2f(115,155)
+    glVertex2f(85,155)
+    glEnd()
+
+    # papan 5
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(125,345)
+    glVertex2f(155,345)
+    glVertex2f(155,155)
+    glVertex2f(125,155)
+    glEnd()
+
+    # papan 6
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(165,345)
+    glVertex2f(195,345)
+    glVertex2f(195,155)
+    glVertex2f(165,155)
+    glEnd()
+
+    # papan 7
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(205,345)
+    glVertex2f(235,345)
+    glVertex2f(235,155)
+    glVertex2f(205,155)
+    glEnd()
+
+    # papan 8
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(245,345)
+    glVertex2f(275,345)
+    glVertex2f(275,155)
+    glVertex2f(245,155)
+    glEnd()
+
+    # papan 9
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(285,345)
+    glVertex2f(315,345)
+    glVertex2f(315,155)
+    glVertex2f(285,155)
+    glEnd()
+
+    # papan 10
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(325,345)
+    glVertex2f(355,345)
+    glVertex2f(355,155)
+    glVertex2f(325,155)
+    glEnd()
+
+    # papan 11
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(365,345)
+    glVertex2f(395,345)
+    glVertex2f(395,155)
+    glVertex2f(365,155)
+    glEnd()
+
+    # papan 12
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(405,345)
+    glVertex2f(435,345)
+    glVertex2f(435,155)
+    glVertex2f(405,155)
+    glEnd()
+
+    # papan 13
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(445,345)
+    glVertex2f(475,345)
+    glVertex2f(475,155)
+    glVertex2f(445,155)
+    glEnd()
+
+    # papan 14
+    glColor3ub(201, 125, 42)
+    glBegin(GL_QUADS)
+    glVertex2f(485,345)
+    glVertex2f(500,345)
+    glVertex2f(500,155)
+    glVertex2f(485,155)
+    glEnd()
+
+    # kotak basket
+    glColor3ub(255,255,255)
+    glBegin(GL_POLYGON)
+    glVertex2f(50,150)
+    glVertex2f(60,110)
+    glVertex2f(70,100)
+    glVertex2f(100,80)
+    glVertex2f(130,70)
+    glVertex2f(160,60)
+    glVertex2f(190,50)
+    glVertex2f(220,45)
+    glVertex2f(280,45)
+    glVertex2f(310,50)
+    glVertex2f(340,60)
+    glVertex2f(370,70)
+    glVertex2f(400,80)
+    glVertex2f(430,100)
+    glVertex2f(440,110)
+    glVertex2f(450,150)
+    glEnd()
+
+def box():
+    glPushMatrix()
+    glTranslated(geser_box2,geser_box,0)
+    glColor3ub(171, 14, 37)
+    glBegin(GL_QUADS)
+    glVertex2f(200,550)
+    glVertex2f(200,450)
+    glVertex2f(300,450)
+    glVertex2f(300,550)
+    glEnd()
+    glPopMatrix()
+
+    # garis silang
+    glPushMatrix()
+    glTranslated(geser_box2,geser_box,0)
+    glColor3ub(0,0,0)
+    glBegin(GL_QUADS)
+    glVertex2f(200,550)
+    glVertex2f(200,540)
+    glVertex2f(290,450)
+    glVertex2f(300,450)
+    glVertex2f(300,460)
+    glVertex2f(210,550)
+    glEnd()
+    glPopMatrix()
+
+    # garis silang 2
+    glPushMatrix()
+    glTranslated(geser_box2,geser_box,0)
+    glColor3ub(0,0,0)
+    glBegin(GL_QUADS)
+    glVertex2f(300,550)
+    glVertex2f(300,540)
+    glVertex2f(210,450)
+    glVertex2f(200,450)
+    glVertex2f(200,460)
+    glVertex2f(290,550)
+    glEnd()
+    glPopMatrix()
+
+def box2():
+    glPushMatrix()
+    glTranslated(geser_box3,geser_box5,0)
+    glColor3ub(16, 31, 232)
+    glBegin(GL_QUADS)
+    glVertex2f(200,550)
+    glVertex2f(200,450)
+    glVertex2f(300,450)
+    glVertex2f(300,550)
+    glEnd()
+    glPopMatrix()
+
+    # garis silang
+    glPushMatrix()
+    glTranslated(geser_box3,geser_box5,0)
+    glColor3ub(0,0,0)
+    glBegin(GL_QUADS)
+    glVertex2f(200,550)
+    glVertex2f(200,540)
+    glVertex2f(290,450)
+    glVertex2f(300,450)
+    glVertex2f(300,460)
+    glVertex2f(210,550)
+    glEnd()
+    glPopMatrix()
+
+    # garis silang 2
+    glPushMatrix()
+    glTranslated(geser_box3,geser_box5,0)
+    glColor3ub(0,0,0)
+    glBegin(GL_QUADS)
+    glVertex2f(300,550)
+    glVertex2f(300,540)
+    glVertex2f(210,450)
+    glVertex2f(200,450)
+    glVertex2f(200,460)
+    glVertex2f(290,550)
+    glEnd()
+    glPopMatrix()
+
+def box3():
+    glPushMatrix()
+    glTranslated(geser_box4,geser_box6,0)
+    glColor3ub(231, 15, 242)
+    glBegin(GL_QUADS)
+    glVertex2f(200,550)
+    glVertex2f(200,450)
+    glVertex2f(300,450)
+    glVertex2f(300,550)
+    glEnd()
+    glPopMatrix()
+
+    # garis silang
+    glPushMatrix()
+    glTranslated(geser_box4,geser_box6,0)
+    glColor3ub(0,0,0)
+    glBegin(GL_QUADS)
+    glVertex2f(200,550)
+    glVertex2f(200,540)
+    glVertex2f(290,450)
+    glVertex2f(300,450)
+    glVertex2f(300,460)
+    glVertex2f(210,550)
+    glEnd()
+    glPopMatrix()
+
+    # garis silang 2
+    glPushMatrix()
+    glTranslated(geser_box4,geser_box6,0)
+    glColor3ub(0,0,0)
+    glBegin(GL_QUADS)
+    glVertex2f(300,550)
+    glVertex2f(300,540)
+    glVertex2f(210,450)
+    glVertex2f(200,450)
+    glVertex2f(200,460)
+    glVertex2f(290,550)
+    glEnd()
+    glPopMatrix()
+
+def capit():
+    global geser_capit
+    # atas
+    glPushMatrix()
+    glTranslated(geser_capit,0,0)
+    glColor3ub(252, 207, 3)
+    glBegin(GL_QUADS)
+    glVertex2f(230,700)
+    glVertex2f(230,650)
+    glVertex2f(270,650)
+    glVertex2f(270,700)
+    glEnd()
+    glPopMatrix()
+
+    # kiri
+    glPushMatrix()
+    glTranslated(geser_capit,0,0)
+    glColor3ub(252, 207, 3)
+    glBegin(GL_POLYGON)
+    glVertex2f(230,650)
+    glVertex2f(180,600)
+    glVertex2f(200,550)
+    glVertex2f(220,560)
+    glVertex2f(200,600)
+    glVertex2f(250,620)
+    glVertex2f(250,650)
+    glEnd()
+    glPopMatrix()
+
+    # kanan
+    glPushMatrix()
+    glTranslated(geser_capit,0,0)
+    glColor3ub(252, 207, 3)
+    glBegin(GL_POLYGON)
+    glVertex2f(270,650)
+    glVertex2f(320,600)
+    glVertex2f(300,550)
+    glVertex2f(280,560)
+    glVertex2f(300,600)
+    glVertex2f(250,620)
+    glVertex2f(250,650)
+    glEnd()
+    glPopMatrix()
+
+
+# Background pilihan level game berhitung
+def bg_lvl():
+    # bg
+    glColor3ub(255, 219, 140)
+    glBegin(GL_QUADS)
+    glVertex2f(0,0)
+    glVertex2f(500,0)
+    glVertex2f(500,700)
+    glVertex2f(0, 700)
+    glEnd()
+
+    # # tulisan angka
+    # # 1
+    # glColor3ub(240, 36, 36)
+    # glBegin(GL_QUADS)
+    # glVertex2f(215,570)
+    # glVertex2f(225,570)
+    # glVertex2f(225,530)
+    # glVertex2f(215,530)
+    # glEnd()
+
+    # glBegin(GL_QUADS)
+    # glVertex2f(200,560)
+    # glVertex2f(215,570)
+    # glVertex2f(215,560)
+    # glVertex2f(205,555)
+    # glEnd()
+
+    # # -
+    # glBegin(GL_QUADS)
+    # glVertex2f(236,546)
+    # glVertex2f(264,546)
+    # glVertex2f(264,554)
+    # glVertex2f(236,554)
+    # glEnd()
+
+    # # 3
+    # glBegin(GL_POLYGON)
+    # glVertex2f(276,558)
+    # glVertex2f(284,558)
+    # glVertex2f(284,564)
+    # glVertex2f(280,570)
+    # glVertex2f(276,570)
+    # glEnd()
+
+    # glBegin(GL_QUADS)
+    # glVertex2f(284,564)
+    # glVertex2f(280,570)
+    # glVertex2f(300,570)
+    # glVertex2f(296,564)
+    # glEnd()
+
+    # glBegin(GL_POLYGON)
+    # glVertex2f(300,570)
+    # glVertex2f(296,564)
+    # glVertex2f(296,536)
+    # glVertex2f(300,530)
+    # glVertex2f(304,534)
+    # glVertex2f(304,564)
+    # glEnd()
+
+    # glBegin(GL_QUADS)
+    # glVertex2f(286,546)
+    # glVertex2f(296,546)
+    # glVertex2f(296,554)
+    # glVertex2f(286,554)
+    # glEnd()
+
+    # glBegin(GL_QUADS)
+    # glVertex2f(280,530)
+    # glVertex2f(300,530)
+    # glVertex2f(296,536)
+    # glVertex2f(284,536)
+    # glEnd()
+
+    # glBegin(GL_POLYGON)
+    # glVertex2f(276,542)
+    # glVertex2f(276,534)
+    # glVertex2f(280,530)
+    # glVertex2f(284,536)
+    # glVertex2f(284,542)
+    # glEnd()
+
+    # tulisan lvl
+    # 255, 97, 97
+    # L
+    glColor3ub(240, 36, 36)
+    glBegin(GL_QUADS)
+    glVertex2f(130,660)
+    glVertex2f(110,660)
+    glVertex2f(110,620)
+    glVertex2f(130,620)
+    glEnd()
+
+    glBegin(GL_QUADS)
+    glVertex2f(110,600)
+    glVertex2f(150,600)
+    glVertex2f(150,620)
+    glVertex2f(110,620)
+    glEnd()
+
+    # E
+    glBegin(GL_QUADS)
+    glVertex2f(160,660)
+    glVertex2f(160,600)
+    glVertex2f(180,600)
+    glVertex2f(180,660)
+    glEnd()
+
+    glBegin(GL_QUADS)
+    glVertex2f(180,660)
+    glVertex2f(180,650)
+    glVertex2f(200,650)
+    glVertex2f(200,660)
+    glEnd()
+
+    glPushMatrix()
+    glTranslated(0,-25,0)
+    glBegin(GL_QUADS)
+    glVertex2f(180,660)
+    glVertex2f(180,650)
+    glVertex2f(200,650)
+    glVertex2f(200,660)
+    glEnd()
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslated(0,-50,0)
+    glBegin(GL_QUADS)
+    glVertex2f(180,660)
+    glVertex2f(180,650)
+    glVertex2f(200,650)
+    glVertex2f(200,660)
+    glEnd()
+    glPopMatrix()
+
+    # V
+    glBegin(GL_POLYGON)
+    glVertex2f(230,660)
+    glVertex2f(210,660)
+    glVertex2f(240,600)
+    glVertex2f(250,600)
+    glVertex2f(250,620)
+    glVertex2f(245,620)
+    glEnd()
+
+    
+    glBegin(GL_POLYGON)
+    glVertex2f(270,660)
+    glVertex2f(290,660)
+    glVertex2f(260,600)
+    glVertex2f(250,600)
+    glVertex2f(250,620)
+    glVertex2f(255,620)
+    glEnd()
+
+    # E
+    glPushMatrix()
+    glTranslated(140,0,0)
+    glBegin(GL_QUADS)
+    glVertex2f(160,660)
+    glVertex2f(160,600)
+    glVertex2f(180,600)
+    glVertex2f(180,660)
+    glEnd()
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslated(140,0,0)
+    glBegin(GL_QUADS)
+    glVertex2f(180,660)
+    glVertex2f(180,650)
+    glVertex2f(200,650)
+    glVertex2f(200,660)
+    glEnd()
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslated(140,-25,0)
+    glBegin(GL_QUADS)
+    glVertex2f(180,660)
+    glVertex2f(180,650)
+    glVertex2f(200,650)
+    glVertex2f(200,660)
+    glEnd()
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslated(140,-50,0)
+    glBegin(GL_QUADS)
+    glVertex2f(180,660)
+    glVertex2f(180,650)
+    glVertex2f(200,650)
+    glVertex2f(200,660)
+    glEnd()
+    glPopMatrix()
+
+    # L
+    glPushMatrix()
+    glTranslated(250,0,0)
+    glBegin(GL_POLYGON)
+    glVertex2f(130,660)
+    glVertex2f(110,660)
+    glVertex2f(110,620)
+    glVertex2f(130,620)
+    glEnd()
+    glPopMatrix()
+
+    glPushMatrix()
+    glTranslated(250,0,0)
+    glBegin(GL_POLYGON)
+    glVertex2f(110,600)
+    glVertex2f(150,600)
+    glVertex2f(150,620)
+    glVertex2f(110,620)
+    glEnd()
+    glPopMatrix()
+
+def kotak_lvl() :
+    # lvl 1
+    glPushMatrix()
+    glColor3ub(255,255,255)
+    glBegin(GL_POLYGON)
+    glVertex2f(60,500)
+    glVertex2f(20,460)
+    glVertex2f(20,340)
+    glVertex2f(60,300)
+    glVertex2f(200,300)
+    glVertex2f(240,340)
+    glVertex2f(240,460)
+    glVertex2f(200,500)
+    glEnd()
+    glPopMatrix()
+
+    # lvl 2
+    glPushMatrix()
+    glTranslated(240,0,0)
+    glColor3ub(255,255,255)
+    glBegin(GL_POLYGON)
+    glVertex2f(60,500)
+    glVertex2f(20,460)
+    glVertex2f(20,340)
+    glVertex2f(60,300)
+    glVertex2f(200,300)
+    glVertex2f(240,340)
+    glVertex2f(240,460)
+    glVertex2f(200,500)
+    glEnd()
+    glPopMatrix()
+
+    # lvl 3
+    glPushMatrix()
+    glTranslated(0,-250,0)
+    glColor3ub(255,255,255)
+    glBegin(GL_POLYGON)
+    glVertex2f(60,500)
+    glVertex2f(20,460)
+    glVertex2f(20,340)
+    glVertex2f(60,300)
+    glVertex2f(200,300)
+    glVertex2f(240,340)
+    glVertex2f(240,460)
+    glVertex2f(200,500)
+    glEnd()
+    glPopMatrix()
+
+    # comingsoon
+    glPushMatrix()
+    glTranslated(240,-250,0)
+    glColor3ub(255,255,255)
+    glBegin(GL_POLYGON)
+    glVertex2f(60,500)
+    glVertex2f(20,460)
+    glVertex2f(20,340)
+    glVertex2f(60,300)
+    glVertex2f(200,300)
+    glVertex2f(240,340)
+    glVertex2f(240,460)
+    glVertex2f(200,500)
+    glEnd()
+    glPopMatrix()
+
+# Background pilih game berhitung dan game capit
+def pilih_game():
+    # langit 
+    glBegin(GL_QUADS)
+    glColor3ub(166, 233, 255)
+    glVertex2f(0,190)
+    glVertex2f(500,190)
+    glColor3ub(43, 202, 255)
+    glVertex2f(500,700)
+    glVertex2f(0, 700)
+    glEnd()
+
+    # awan 1
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,-100,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(50,510)
+    glVertex2f(61,508)
+    glVertex2f(72,500)
+    glVertex2f(77.5,492)
+    glVertex2f(80,480)
+    glVertex2f(78.5,470)
+    glVertex2f(72.5,460)
+    glVertex2f(60.5,452)
+    glVertex2f(50,450)
+    glVertex2f(39.5,452)
+    glVertex2f(28,460)
+    glVertex2f(21.5,470)
+    glVertex2f(20,480)
+    glVertex2f(22.5,492)
+    glVertex2f(27.5,500)
+    glVertex2f(39,508)
+    glVertex2f(50,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 1
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,-100,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,510)
+    glVertex2f(101,508)
+    glVertex2f(112,500)
+    glVertex2f(117.5,492)
+    glVertex2f(120,480)
+    glVertex2f(118.5,470)
+    glVertex2f(112.5,460)
+    glVertex2f(100.5,452)
+    glVertex2f(90,450)
+    glVertex2f(79.5,452)
+    glVertex2f(68,460)
+    glVertex2f(61.5,470)
+    glVertex2f(60,480)
+    glVertex2f(62.5,492)
+    glVertex2f(67.5,500)
+    glVertex2f(79,508)
+    glVertex2f(90,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 1
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,-100,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,510)
+    glVertex2f(141,508)
+    glVertex2f(152,500)
+    glVertex2f(157.5,492)
+    glVertex2f(160,480)
+    glVertex2f(158.5,470)
+    glVertex2f(152.5,460)
+    glVertex2f(140.5,452)
+    glVertex2f(130,450)
+    glVertex2f(119.5,452)
+    glVertex2f(108,460)
+    glVertex2f(101.5,470)
+    glVertex2f(100,480)
+    glVertex2f(102.5,492)
+    glVertex2f(107.5,500)
+    glVertex2f(119,508)
+    glVertex2f(130,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 2
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(50,610)
+    glVertex2f(61,608)
+    glVertex2f(72,600)
+    glVertex2f(77.5,592)
+    glVertex2f(80,580)
+    glVertex2f(78.5,570)
+    glVertex2f(72.5,560)
+    glVertex2f(60.5,552)
+    glVertex2f(50,550)
+    glVertex2f(39.5,552)
+    glVertex2f(28,560)
+    glVertex2f(21.5,570)
+    glVertex2f(20,580)
+    glVertex2f(22.5,592)
+    glVertex2f(27.5,600)
+    glVertex2f(39,608)
+    glVertex2f(50,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 2
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,610)
+    glVertex2f(101,608)
+    glVertex2f(112,600)
+    glVertex2f(117.5,592)
+    glVertex2f(120,580)
+    glVertex2f(118.5,570)
+    glVertex2f(112.5,560)
+    glVertex2f(100.5,552)
+    glVertex2f(90,550)
+    glVertex2f(79.5,552)
+    glVertex2f(68,560)
+    glVertex2f(61.5,570)
+    glVertex2f(60,580)
+    glVertex2f(62.5,592)
+    glVertex2f(67.5,600)
+    glVertex2f(79,608)
+    glVertex2f(90,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 2
+    glPushMatrix()
+    glTranslated(350,0,0)
+    glTranslated(geser_awanKn,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,610)
+    glVertex2f(141,608)
+    glVertex2f(152,600)
+    glVertex2f(157.5,592)
+    glVertex2f(160,580)
+    glVertex2f(158.5,570)
+    glVertex2f(152.5,560)
+    glVertex2f(140.5,552)
+    glVertex2f(130,550)
+    glVertex2f(119.5,552)
+    glVertex2f(108,560)
+    glVertex2f(101.5,570)
+    glVertex2f(100,580)
+    glVertex2f(102.5,592)
+    glVertex2f(107.5,600)
+    glVertex2f(119,608)
+    glVertex2f(130,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 3
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(50,510)
+    glVertex2f(61,508)
+    glVertex2f(72,500)
+    glVertex2f(77.5,492)
+    glVertex2f(80,480)
+    glVertex2f(78.5,470)
+    glVertex2f(72.5,460)
+    glVertex2f(60.5,452)
+    glVertex2f(50,450)
+    glVertex2f(39.5,452)
+    glVertex2f(28,460)
+    glVertex2f(21.5,470)
+    glVertex2f(20,480)
+    glVertex2f(22.5,492)
+    glVertex2f(27.5,500)
+    glVertex2f(39,508)
+    glVertex2f(50,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 3
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,510)
+    glVertex2f(101,508)
+    glVertex2f(112,500)
+    glVertex2f(117.5,492)
+    glVertex2f(120,480)
+    glVertex2f(118.5,470)
+    glVertex2f(112.5,460)
+    glVertex2f(100.5,452)
+    glVertex2f(90,450)
+    glVertex2f(79.5,452)
+    glVertex2f(68,460)
+    glVertex2f(61.5,470)
+    glVertex2f(60,480)
+    glVertex2f(62.5,492)
+    glVertex2f(67.5,500)
+    glVertex2f(79,508)
+    glVertex2f(90,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 3
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,0,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,510)
+    glVertex2f(141,508)
+    glVertex2f(152,500)
+    glVertex2f(157.5,492)
+    glVertex2f(160,480)
+    glVertex2f(158.5,470)
+    glVertex2f(152.5,460)
+    glVertex2f(140.5,452)
+    glVertex2f(130,450)
+    glVertex2f(119.5,452)
+    glVertex2f(108,460)
+    glVertex2f(101.5,470)
+    glVertex2f(100,480)
+    glVertex2f(102.5,492)
+    glVertex2f(107.5,500)
+    glVertex2f(119,508)
+    glVertex2f(130,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 4
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,-180,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(50,510)
+    glVertex2f(61,508)
+    glVertex2f(72,500)
+    glVertex2f(77.5,492)
+    glVertex2f(80,480)
+    glVertex2f(78.5,470)
+    glVertex2f(72.5,460)
+    glVertex2f(60.5,452)
+    glVertex2f(50,450)
+    glVertex2f(39.5,452)
+    glVertex2f(28,460)
+    glVertex2f(21.5,470)
+    glVertex2f(20,480)
+    glVertex2f(22.5,492)
+    glVertex2f(27.5,500)
+    glVertex2f(39,508)
+    glVertex2f(50,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 4
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,-180,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,510)
+    glVertex2f(101,508)
+    glVertex2f(112,500)
+    glVertex2f(117.5,492)
+    glVertex2f(120,480)
+    glVertex2f(118.5,470)
+    glVertex2f(112.5,460)
+    glVertex2f(100.5,452)
+    glVertex2f(90,450)
+    glVertex2f(79.5,452)
+    glVertex2f(68,460)
+    glVertex2f(61.5,470)
+    glVertex2f(60,480)
+    glVertex2f(62.5,492)
+    glVertex2f(67.5,500)
+    glVertex2f(79,508)
+    glVertex2f(90,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 4
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,-180,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,510)
+    glVertex2f(141,508)
+    glVertex2f(152,500)
+    glVertex2f(157.5,492)
+    glVertex2f(160,480)
+    glVertex2f(158.5,470)
+    glVertex2f(152.5,460)
+    glVertex2f(140.5,452)
+    glVertex2f(130,450)
+    glVertex2f(119.5,452)
+    glVertex2f(108,460)
+    glVertex2f(101.5,470)
+    glVertex2f(100,480)
+    glVertex2f(102.5,492)
+    glVertex2f(107.5,500)
+    glVertex2f(119,508)
+    glVertex2f(130,510)
+    glEnd()
+    glPopMatrix()
+
+    # awan 5
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,90,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(50,610)
+    glVertex2f(61,608)
+    glVertex2f(72,600)
+    glVertex2f(77.5,592)
+    glVertex2f(80,580)
+    glVertex2f(78.5,570)
+    glVertex2f(72.5,560)
+    glVertex2f(60.5,552)
+    glVertex2f(50,550)
+    glVertex2f(39.5,552)
+    glVertex2f(28,560)
+    glVertex2f(21.5,570)
+    glVertex2f(20,580)
+    glVertex2f(22.5,592)
+    glVertex2f(27.5,600)
+    glVertex2f(39,608)
+    glVertex2f(50,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 5
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,90,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(90,610)
+    glVertex2f(101,608)
+    glVertex2f(112,600)
+    glVertex2f(117.5,592)
+    glVertex2f(120,580)
+    glVertex2f(118.5,570)
+    glVertex2f(112.5,560)
+    glVertex2f(100.5,552)
+    glVertex2f(90,550)
+    glVertex2f(79.5,552)
+    glVertex2f(68,560)
+    glVertex2f(61.5,570)
+    glVertex2f(60,580)
+    glVertex2f(62.5,592)
+    glVertex2f(67.5,600)
+    glVertex2f(79,608)
+    glVertex2f(90,610)
+    glEnd()
+    glPopMatrix()
+
+    # awan 5
+    glPushMatrix()
+    glTranslated(-50,0,0)
+    glTranslated(geser_awanKr,90,0)
+    glBegin(GL_POLYGON)
+    glColor3ub(255,255,255)
+    glVertex2f(130,610)
+    glVertex2f(141,608)
+    glVertex2f(152,600)
+    glVertex2f(157.5,592)
+    glVertex2f(160,580)
+    glVertex2f(158.5,570)
+    glVertex2f(152.5,560)
+    glVertex2f(140.5,552)
+    glVertex2f(130,550)
+    glVertex2f(119.5,552)
+    glVertex2f(108,560)
+    glVertex2f(101.5,570)
+    glVertex2f(100,580)
+    glVertex2f(102.5,592)
+    glVertex2f(107.5,600)
+    glVertex2f(119,608)
+    glVertex2f(130,610)
+    glEnd()
+    glPopMatrix()
+
+    # rumput
+    glColor3ub(10, 117, 0)
+    glBegin(GL_POLYGON)
+    glVertex2f(0,190)
+    glVertex2f(120,200)
+    glVertex2f(380,200)
+    glVertex2f(500,190)
+    glColor3ub(34, 173, 21)
+    glVertex2f(500,0)
+    glVertex2f(0,0)
+    glEnd()
+
+    # kotak game 1
+    glColor3ub(255, 245, 179)
+    glBegin(GL_POLYGON)
+    glVertex2f(180,600)
+    glVertex2f(140,560)
+    glVertex2f(140,440)
+    glVertex2f(180,400)
+    glVertex2f(320,400)
+    glVertex2f(360,440)
+    glVertex2f(360,560)
+    glVertex2f(320,600)
+    glEnd()
+
+    # +
+    glColor3ub(29, 199, 14)
+    glBegin(GL_QUADS)
+    glVertex2f(180,580)
+    glVertex2f(180,520)
+    glVertex2f(200,520)
+    glVertex2f(200,580)
+
+    glColor3ub(29, 199, 14)
+    glVertex2f(160,560)
+    glVertex2f(160,540)
+    glVertex2f(220,540)
+    glVertex2f(220,560)
+
+    # -
+    glColor3ub(164, 14, 201)
+    glVertex2f(270,560)
+    glVertex2f(270,540)
+    glVertex2f(330,540)
+    glVertex2f(330,560)
+
+    # -
+    glColor3ub(201, 14, 14)
+    glVertex2f(170,440)
+    glVertex2f(170,460)
+    glVertex2f(230,460)
+    glVertex2f(230,440)
+
+    # :
+    glColor3ub(201, 14, 14)
+    glVertex2f(190,470)
+    glVertex2f(190,490)
+    glVertex2f(210,490)
+    glVertex2f(210,470)
+
+    # x
+    glColor3ub(255, 240, 36)
+    glVertex2f(280,480)
+    glVertex2f(270,470)
+    glVertex2f(320,420)
+    glVertex2f(330,430)
+
+    glVertex2f(330,470)
+    glVertex2f(320,480)
+    glVertex2f(270,430)
+    glVertex2f(280,420)
+    glEnd()
+
+    # :
+    glPushMatrix()
+    glTranslated(0,-60,0)
+    glBegin(GL_QUADS)
+    glColor3ub(201, 14, 14)
+    glVertex2f(190,470)
+    glVertex2f(190,490)
+    glVertex2f(210,490)
+    glVertex2f(210,470)
+    glEnd()
+    glPopMatrix()
+
+
+    # kotak game 2
+    glPushMatrix()
+    glTranslated(0,-250,0)
+    glColor3ub(255, 245, 179)
+    glBegin(GL_POLYGON)
+    glVertex2f(180,600)
+    glVertex2f(140,560)
+    glVertex2f(140,440)
+    glVertex2f(180,400)
+    glVertex2f(320,400)
+    glVertex2f(360,440)
+    glVertex2f(360,560)
+    glVertex2f(320,600)
+    glEnd()
+    glPopMatrix()
+
+    # capit
+    # atas
+    glPushMatrix()
+    glTranslated(0,-350,0)
+    glColor3ub(252, 207, 3)
+    glBegin(GL_QUADS)
+    glVertex2f(230,700)
+    glVertex2f(230,650)
+    glVertex2f(270,650)
+    glVertex2f(270,700)
+    glEnd()
+    glPopMatrix()
+
+    # kiri
+    glPushMatrix()
+    glTranslated(0,-350,0)
+    glColor3ub(252, 207, 3)
+    glBegin(GL_POLYGON)
+    glVertex2f(230,650)
+    glVertex2f(180,600)
+    glVertex2f(200,550)
+    glVertex2f(220,560)
+    glVertex2f(200,600)
+    glVertex2f(250,620)
+    glVertex2f(250,650)
+    glEnd()
+    glPopMatrix()
+
+    # kanan
+    glPushMatrix()
+    glTranslated(0,-350,0)
+    glColor3ub(252, 207, 3)
+    glBegin(GL_POLYGON)
+    glVertex2f(270,650)
+    glVertex2f(320,600)
+    glVertex2f(300,550)
+    glVertex2f(280,560)
+    glVertex2f(300,600)
+    glVertex2f(250,620)
+    glVertex2f(250,650)
+    glEnd()
+    glPopMatrix()
+
+# Background feedback 
+def feedback():
+    # bg
+    glColor3ub(255, 219, 140)
+    glBegin(GL_QUADS)
+    glVertex2f(0,0)
+    glVertex2f(500,0)
+    glVertex2f(500,700)
+    glVertex2f(0, 700)
+    glEnd()
+
+    # tombol kanan
+    glColor3ub(255,255,255)
+    glBegin(GL_POLYGON)
+    glVertex2f(310,130)
+    glVertex2f(300,110)
+    glVertex2f(300,70)
+    glVertex2f(310,50)
+    glVertex2f(450,50)
+    glVertex2f(460,70)
+    glVertex2f(460,110)
+    glVertex2f(450,130)
+    glEnd()
+
+    # tombol kiri
+    glPushMatrix()
+    glTranslated(-260,0,0)
+    glColor3ub(255,255,255)
+    glBegin(GL_POLYGON)
+    glVertex2f(310,130)
+    glVertex2f(300,110)
+    glVertex2f(300,70)
+    glVertex2f(310,50)
+    glVertex2f(450,50)
+    glVertex2f(460,70)
+    glVertex2f(460,110)
+    glVertex2f(450,130)
+    glEnd()
+    glPopMatrix()
+
+# input keyboard game capit
+def keyboard (key,x,y) :
+    global geser_box2, geser_capit, jumlah_box,geser_box3,geser_box4
+    if key == GLUT_KEY_RIGHT :
+        if jumlah_box == 0 :
+            geser_box2 += 20
+            geser_capit += 20
+            print("Ke kanan ", "(", geser_box2, ",", 0, ")")
+        elif jumlah_box == 1 :
+            geser_box3 += 20
+            geser_capit += 20
+            print("Ke kanan ", "(", geser_box3, ",", 0, ")")
+        elif jumlah_box == 2 :
+            geser_box4 += 20
+            geser_capit += 20
+            print("Ke kanan ", "(", geser_box4, ",", 0, ")")
+        else :
+            geser_capit += 20
+            print("Ke kanan ", "(", geser_box4, ",", 0, ")")
+    if key == GLUT_KEY_LEFT :
+        if jumlah_box == 0 :
+            geser_box2 -= 20
+            geser_capit -= 20
+            print("Ke kiri ", "(", geser_box2, ",", 0, ")")
+        elif jumlah_box == 1 :
+            geser_box3 -= 20
+            geser_capit -= 20
+            print("Ke kiri ", "(", geser_box3, ",", 0, ")")
+        elif jumlah_box == 2 :
+            geser_box4 -= 20
+            geser_capit -= 20
+            print("Ke kiri ", "(", geser_box4, ",", 0, ")")
+        else :
+            geser_capit -= 20
+            print("Ke kiri ", "(", geser_box4, ",", 0, ")")
+
+# input mouse game
+def mouse_awal(button, state, x, y):
+    global scene, jumlah_box,geser_box, geser_box5,geser_box6
+    # tombol play
+    if scene == 0 :
+        if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN :
+            if (x >= 195 and x <= 305) and (y >= 345 and y <= 455) :
+                scene = 1
+            print("Klik Kiri ditekan ", "(", x, ",", y, ")")
+    # tombol pilihan game berhitung dan game capit
+    elif scene == 1 :
+        if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN :
+            if (x >= 140 and x <= 360) and (y >= 100 and y <= 300) :
+                scene = 5
+            elif (x >= 140 and x <= 360) and (y >= 350 and y <= 550) :
+                scene = 3
+            print("Klik Kiri ditekan ", "(", x, ",", y, ")")
+    # tombol game capit
+    elif scene == 3 :
+        if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN :
+            if jumlah_box == 0 :
+                timer_box(0)
+                jumlah_box += 1
+            elif jumlah_box == 1 :
+                timer_box2(0)
+                jumlah_box += 1
+            elif jumlah_box == 2 :
+                timer_box3(0)
+                jumlah_box += 1
+            elif jumlah_box == 3 :
+                geser_box = 0
+                geser_box5 = 0
+                geser_box6 = 0
+                jumlah_box = 0
+                scene = 4
+            print("Klik Kiri ditekan ", "(", x, ",", y, ")")
+    # tombol feedback
+    elif scene == 4 :
+        if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN :
+            if (x >= 310 and x <= 460) and (y >= 570 and y <= 650) :
+                scene = 0
+            elif (x >= 40 and x <= 200) and (y >= 570 and y <= 650) :
+                scene = 3
+            print("Klik Kiri ditekan ", "(", x, ",", y, ")")
+
+# def timer_capit(value):
+#     global gerak_capit,geser_capit,gerakan_game2,batas_capit
+#     glutTimerFunc(300, timer_capit,0)
+#     if gerakan_game2 == True:
+#         geser_capit += gerak_capit
+#         batas_capit += gerak_capit
+#     else :
+#         batas_capit -= gerak_capit
+#         geser_capit -= gerak_capit
+        
+#     if batas_capit == 500 or batas_capit == 140 :
+#         gerak_capit = -gerak_capit
+
+def timer_box(value):
+    global gerak_box,geser_box,batas_box,gerakan_game2,jumlah_box
+    if jumlah_box == 0 :
+        glutTimerFunc(50, timer_box,0)
+        if gerakan_game2 == True :
+            geser_box -= gerak_box
+            batas_box -= gerak_box
+        else :
+            batas_box += gerak_box
+            geser_box += gerak_box
+        if batas_box == 0 :
+            gerak_box = 0
+    
+def timer_box2(value):
+    global gerak_box,batas_box2,gerakan_game2,jumlah_box,geser_box5
+    glutTimerFunc(50, timer_box2,0)
+    gerak_box = 10
+    if jumlah_box == 2 :
+        if gerakan_game2 == True :
+            geser_box5 -= gerak_box
+            batas_box2 -= gerak_box
+        else :
+            batas_box2 += gerak_box
+            geser_box5 += gerak_box
+        if batas_box2 == 100 :
+            gerak_box = 0
+    
+def timer_box3(value):
+    global gerak_box,batas_box2,gerakan_game2,jumlah_box,geser_box6
+    glutTimerFunc(50, timer_box3,0)
+    gerak_box = 10
+    if jumlah_box == 3 :
+        if gerakan_game2 == True :
+            geser_box6 -= gerak_box
+            batas_box2 -= gerak_box
+        else :
+            batas_box2 += gerak_box
+            geser_box6 += gerak_box
+        if batas_box2 == 200 :
+            gerak_box = 0
+
+# def timer_box4(value):
+#     global gerak_box2,geser_box2,batas_box2,gerakan_game2
+#     glutTimerFunc(300, timer_box2,0)
+#     if gerakan_game2 == True :
+#         geser_box2 += gerak_box2
+#         batas_box2 += gerak_box2
+#     else :
+#         batas_box2 -= gerak_box2
+#         geser_box2 -= gerak_box2
+#     if batas_box2 == 480 or batas_box2 == 120 :
+#         gerak_box2 = -gerak_box2
+
+def timer_awan_kanan(value):
+    global gerakKn,geser_awanKn,batas_awan,gerak_awan
+    glutTimerFunc(200, timer_awan_kanan,0)
+    if gerak_awan == True:
+        geser_awanKn += gerakKn
+    else :
+        batas_awan -= gerakKn
+        geser_awanKn -= gerakKn
+
+    if batas_awan == 600 or batas_awan == -200 :
+        gerakKn = -gerakKn
+
+def timer_awan_kiri(value):
+    global gerakKr,geser_awanKr,batas_awan,gerak_awan
+    glutTimerFunc(200, timer_awan_kiri,0)
+    if gerak_awan == False:
+        geser_awanKr += gerakKr
+    else :
+        batas_awan -= gerakKr
+        geser_awanKr -= gerakKr
+
+    if batas_awan == 600 or batas_awan == -200 :
+        gerakKr = -gerakKr
+
+# fungsi tulisan pada game 2 dan pilihan level game berhitung
+def drawBitmapText(string,x,y,z) :
+    global text
+    if text == True :
+        glRasterPos3f(x,y,z)
+        for karakter in string :
+            glColor3ub(0, 76, 207)
+            glutBitmapCharacter(gl.GLUT_BITMAP_TIMES_ROMAN_24,ord(karakter))
+    elif text == False :
+        glRasterPos3f(x,y,z)
+        for karakter in string :
+            glColor3ub(255,255,255)
+            glutBitmapCharacter(gl.GLUT_BITMAP_TIMES_ROMAN_24,ord(karakter))
+
+# fungsi tulisan pada feedback
+def drawBitmapText2(string,x,y,z):
+    glRasterPos3f(x,y,z)
+    for karakter in string :
+        glColor3ub(0,0,0)
+        glutBitmapCharacter(gl.GLUT_BITMAP_TIMES_ROMAN_24,ord(karakter))
+
+# tulisan feedback
+def text_fb():
+    drawBitmapText2(" ", 300,100,0)
+    drawBitmapText2("KEMBALI", 328,80,0)
+    drawBitmapText2("ULANGI", 73,80,0)
+    drawBitmapText2("CONGRATULATION!", 130,350,0)
+    drawBitmapText2("YOU WIN!", 190,300,0)
+
+# tulisan game 2 dan pilihan level game berhitung
+def text_score():
+    global text, jumlah_box
+    if text == False :
+        drawBitmapText(" " ,10,638,0)
+        drawBitmapText("SCORE" ,10,638,0)
+        if jumlah_box == 0 :
+            drawBitmapText("0" ,10,597,0)
+        elif jumlah_box == 1 :
+            drawBitmapText("1" ,10,597,0)
+        elif jumlah_box == 2 :
+            drawBitmapText("2" ,10,597,0)
+        elif jumlah_box == 3 :
+            drawBitmapText("3" ,10,597,0)
+    elif text == True :
+        drawBitmapText(" ",120,100,0)
+        drawBitmapText("1" ,125,400,0)
+        drawBitmapText("2",365,400,0)
+        drawBitmapText("3",125,140,0)
+        drawBitmapText("4",365,140,0)
+
+# fungsi iterasi
 def iterate():
     glViewport(0, 0, 500, 700)
     glMatrixMode(GL_PROJECTION)
@@ -578,36 +2730,99 @@ def iterate():
     glMatrixMode (GL_MODELVIEW)
     glLoadIdentity()
 
-def display1():
+# fungsi showscreen 
+def pilihan():
+    global scene, jumlah_box, text
     # fungsi untuk membersihkan layar
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
     # untuk mereset semua posisi grafik/bentuk
     glLoadIdentity()
     # fungsi looping
     iterate()
-    # memanggil fungsi 
-    bg()
-    awan()
-    sekolah()
-    jarum_jam()
+    if scene == 0 :
+        # memanggil fungsi 
+        bg()
+        awan_kiri()
+        awan_kanan()
+        judul_game()
+        sekolah()
+        jarum_jam()
+        play()
+        glPushMatrix()
+        pagar()
+        glPopMatrix()
+        glPushMatrix()
+        glTranslated(360,0,0)
+        pagar()
+        glPopMatrix()
+    elif scene == 1 :
+        pilih_game()
+    elif scene == 3 :
+        # memanggil fungsi 
+        text = False
+        lapangan()
+        text_score()
+        capit()
+        if jumlah_box == 0 :
+            lapangan()
+            text_score()
+            capit()
+            box()
+        elif jumlah_box == 1 :
+            lapangan()
+            text_score()
+            capit()
+            box2()
+            box()
+        elif jumlah_box == 2 :
+            lapangan()
+            text_score()
+            capit()
+            box3()
+            box2()
+            box()
+        elif jumlah_box == 3 : 
+            lapangan()
+            text_score()
+            capit()
+            box3()
+            box2()
+            box()
+    elif scene == 4 :
+        # memanggil fungsi 
+        feedback()
+        text_fb()
+    elif scene == 5 :
+        # memanggil fungsi
+        text = True 
+        bg_lvl()
+        kotak_lvl()
+        text_score()
     # untuk membersihkan layar 
     glutSwapBuffers()
 
-# inisialisasi glut
-glutInit() 
-# untuk mengatur layar menjadi berwarna (parameter kode warna)
-glutInitDisplayMode(GLUT_RGBA)
-# untuk mengatur ukuran layar/window (lebar(x), tinggi(y)) diagram cartesius
-glutInitWindowSize(500, 700)
-# untuk mengatur posisi layar/window (lebar(x), tinggi(y)) diagram cartesius
-glutInitWindowPosition(0, 0)
-# untuk memberi nama pada layar/window
-wind = glutCreateWindow("Display awal")
-timer(0)
-# timer2(0)
-# untuk menampilkan objek pada layar, fungsi callback
-glutDisplayFunc(display1)
-# untuk memerintah openGL untuk selalu membuka dan menampilkan objek
-glutIdleFunc(display1)
-# untuk memulai segalanya, untuk melooping objek terus menerus 
-glutMainLoop()
+# fungsi windows
+def display_game():
+    global scene
+    # inisialisasi glut 
+    glutInit(sys.argv)
+    glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB) 
+    # untuk mengatur layar menjadi berwarna (parameter kode warna)
+    # glutInitDisplayMode(GLUT_RGBA)
+    # untuk mengatur ukuran layar/window (lebar(x), tinggi(y)) diagram cartesius
+    glutInitWindowSize(500, 700)
+    # untuk mengatur posisi layar/window (lebar(x), tinggi(y)) diagram cartesius
+    glutInitWindowPosition(0, 0)
+    # untuk memberi nama pada layar/window
+    glutCreateWindow("Display")
+    glutDisplayFunc(pilihan)
+    timer_awan_kanan(0)
+    timer_awan_kiri(0)
+    # untuk memerintah openGL untuk selalu membuka dan menampilkan objek
+    glutIdleFunc(pilihan)
+    glutMouseFunc(mouse_awal)
+    glutSpecialFunc(keyboard)
+    # untuk memulai segalanya, untuk melooping objek terus menerus 
+    glutMainLoop()
+
+display_game()
