@@ -1250,6 +1250,193 @@ def judul_game():
     glVertex2f(386,504)
     glEnd()
 
+def game_lvl1():
+    #papan
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(225, 251, 231)
+    glVertex2f(0, 0)
+    glVertex2f(0, 700)
+    glVertex2f(500, 700)
+    glVertex2f(500, 0)
+    glEnd()
+
+    #kayu atas papan
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(150, 75, 0)
+    glVertex2f(20, 680)
+    glVertex2f(480, 680)
+    glVertex2f(460, 660)
+    glVertex2f(40, 660)
+    glEnd()
+
+    #kayu samping kiri papan
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(150, 75, 0)
+    glVertex2f(20, 680)
+    glVertex2f(20, 200)
+    glVertex2f(40, 220)
+    glVertex2f(40, 660)
+    glEnd()
+
+    #kayu bawah papan
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(150, 75, 0)
+    glVertex2f(20, 200)
+    glVertex2f(40, 220)
+    glVertex2f(460, 220)
+    glVertex2f(480, 200)
+    glEnd()
+
+    #kayu samping kanan papan 
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(150, 75, 0)
+    glVertex2f(480, 200)
+    glVertex2f(480, 680)
+    glVertex2f(460, 660)
+    glVertex2f(460, 220)
+    glEnd()
+
+    #papan tulis
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(225, 225, 225)
+    glVertex2f(40, 660)
+    glVertex2f(460, 660)
+    glVertex2f(460, 220)
+    glVertex2f(40, 220)
+    glEnd()
+
+    #kayu pembatas dengan lantai
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(150, 75, 0)
+    glVertex2f(0, 160)
+    glVertex2f(0, 180)
+    glVertex2f(500, 180)
+    glVertex2f(500, 160)
+    glEnd()
+
+    #lantai
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(210, 105, 305)
+    glVertex2f(0, 0)
+    glVertex2f(0, 160)
+    glVertex2f(500, 160)
+    glVertex2f(500, 0)
+    glEnd()
+
+    #kotak pilihan bawah kiri
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(225, 225, 225)
+    glVertex2f(20, 20)
+    glVertex2f(20, 60)
+    glVertex2f(180, 60)
+    glVertex2f(180, 20)
+    glEnd()
+
+    #kotak pilihan atas kiri
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(225, 225, 225)
+    glVertex2f(20, 100)
+    glVertex2f(20, 140)
+    glVertex2f(180, 140)
+    glVertex2f(180, 100)
+    glEnd()
+
+    #kotak pilihan atas kanan
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(225, 225, 225)
+    glVertex2f(480, 140)
+    glVertex2f(300, 140)
+    glVertex2f(300, 100)
+    glVertex2f(480, 100)
+    glEnd()
+
+    #kotak pilihan bawah kanan
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(225, 225, 225)
+    glVertex2f(480, 60)
+    glVertex2f(300, 60)
+    glVertex2f(300, 20)
+    glVertex2f(480, 20)
+    glEnd()
+
+    #segitiga soal
+    glColor3ub(0, 0, 0)
+    glBegin(GL_POLYGON)
+    glVertex2f(121,551)
+    glVertex2f(100,450)
+    glVertex2f(150,450)
+    glEnd()
+    glPushMatrix()
+    glTranslated(-50, 0, 0)
+    glColor3ub(0, 0, 0)
+    glBegin(GL_POLYGON)
+    glVertex2f(121,551)
+    glVertex2f(100,450)
+    glVertex2f(150,450)
+    glEnd()
+    glPopMatrix()
+    glPushMatrix()
+    glTranslated(0, -100, 0)
+    glColor3ub(0, 0, 0)
+    glBegin(GL_POLYGON)
+    glVertex2f(121,551)
+    glVertex2f(100,450)
+    glVertex2f(150,450)
+    glEnd()
+    glPopMatrix()
+    glPushMatrix()
+    glTranslated(-50, -100, 0)
+    glColor3ub(0, 0, 0)
+    glBegin(GL_POLYGON)
+    glVertex2f(121,551)
+    glVertex2f(100,450)
+    glVertex2f(150,450)
+    glEnd()
+    glPopMatrix()
+
+
+    #kurang    
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(0, 0, 0)
+    glVertex2f(200, 500)
+    glVertex2f(280, 500)
+    glVertex2f(280, 480)
+    glVertex2f(200, 478)
+    glEnd()
+
+    #segitiga soal
+    glColor3ub(0, 0, 0)
+    glBegin(GL_POLYGON)
+    glVertex2f(321,551)
+    glVertex2f(300,450)
+    glVertex2f(350,450)
+    glEnd()
+    glPushMatrix()
+    glTranslated(50, 0, 0)
+    glColor3ub(0, 0, 0)
+    glBegin(GL_POLYGON)
+    glVertex2f(321,551)
+    glVertex2f(300,450)
+    glVertex2f(350,450)
+    glEnd()
+    glPopMatrix()
+
+    #sama degan    
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(0, 0, 0)
+    glVertex2f(420, 500)
+    glVertex2f(420, 480)
+    glVertex2f(450, 480)
+    glVertex2f(450, 500)
+    glEnd()    
+    glBegin(GL_QUADS) #utk membuat objek gambar/ titik koordinatnya ada 4
+    glColor3ub(0, 0, 0)
+    glVertex2f(420, 460)
+    glVertex2f(420, 440)
+    glVertex2f(450, 440)
+    glVertex2f(450, 460)
+    glEnd()
+
 # Background game capit
 def lapangan():
     # bg
@@ -2579,6 +2766,13 @@ def mouse_awal(button, state, x, y):
             elif (x >= 40 and x <= 200) and (y >= 570 and y <= 650) :
                 scene = 3
             print("Klik Kiri ditekan ", "(", x, ",", y, ")")
+    elif scene == 5 :
+        if button == GLUT_LEFT_BUTTON and state == GLUT_DOWN :
+            if (x >= 20 and x <= 240) and (y >= 200 and y <= 400) :
+                scene = 2
+            # elif (x >= 40 and x <= 200) and (y >= 570 and y <= 650) :
+            #     scene = 3
+            print("Klik Kiri ditekan ", "(", x, ",", y, ")")
 
 # def timer_capit(value):
 #     global gerak_capit,geser_capit,gerakan_game2,batas_capit
@@ -2757,6 +2951,8 @@ def pilihan():
         glPopMatrix()
     elif scene == 1 :
         pilih_game()
+    elif scene == 2 :
+        game_lvl1()
     elif scene == 3 :
         # memanggil fungsi 
         text = False
@@ -2767,26 +2963,43 @@ def pilihan():
             lapangan()
             text_score()
             capit()
+            # glPushMatrix()
             box()
+            # glPopMatrix()
         elif jumlah_box == 1 :
             lapangan()
             text_score()
             capit()
+            # glPushMatrix()
             box2()
+            # glPopMatrix()
+            # glPushMatrix()
             box()
+            # glPopMatrix()
         elif jumlah_box == 2 :
             lapangan()
             text_score()
             capit()
+            # glPushMatrix()
             box3()
+            # glPopMatrix()
+            # glPushMatrix()
             box2()
+            # glPopMatrix()
+            # glPushMatrix()
             box()
+            # glPopMatrix()
         elif jumlah_box == 3 : 
             lapangan()
             text_score()
             capit()
+            # glPushMatrix()
             box3()
+            # glPopMatrix()
+            # glPushMatrix()
             box2()
+            # glPopMatrix()
+            # glPushMatrix()
             box()
     elif scene == 4 :
         # memanggil fungsi 
